@@ -1,3 +1,4 @@
+// First 4 const are the libraries listed in node_modules that are required for project.
 const express = require('express');
 const path = require('path');
 const { Client } = require('pg');
