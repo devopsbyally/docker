@@ -4,8 +4,8 @@ const { MongoClient } = require('mongodb');
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017';
 
 // Database and Collection Names
-const dbName = 'first_db';
-const collectionName = 'score';
+const dbName = 'testdb';
+const collectionName = 'testCollection';
 
 // JSON data to insert
 const jsonData = [
@@ -29,18 +29,31 @@ async function main() {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
-    // Insert JSON data into the collection
-    const result = await collection.insertMany(jsonData);
-    console.log(`${result.insertedCount} documents inserted successfully!`);
+    for (const document of jsonData) {
+      // Check if the document already exists in the collection
+      const existing = await collection.findOne({ name: document.name });
+      if (existing) {
+        console.log(`Document with name "${document.name}" already exists. Skipping.`);
+      } else {
+        // Insert the document if it doesn't exist
+        const result = await collection.insertOne(document);
+        console.log(`Inserted document: ${result.insertedId}`);
+      }
+    }
 
     // Fetch and log the inserted documents
     const documents = await collection.find().toArray();
-    console.log('Inserted Documents:', documents);
+    console.log('All Documents:', documents);
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
   } finally {
     // Close the connection
     await client.close();
+
+    // Keep the container running
+    setInterval(() => {
+      console.log('Container is still running...');
+    }, 60 * 1000); // Logs a message every 60 seconds
   }
 }
 
