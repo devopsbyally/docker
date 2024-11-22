@@ -1,0 +1,37 @@
+version: '3'
+services:
+  mongo-db:
+    image: mongo:latest
+    ports:
+      - 27017:27017 #hostport:containerport
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin 
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+    networks:
+      - mongo_network
+    volumes:
+      - mongo_data:/data/db
+
+
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_BASICAUTH_USERNAME=joe
+      - ME_CONFIG_BASICAUTH_PASSWORD=joe123
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin123
+      - ME_CONFIG_MONGODB_SERVER=mongo-db
+    depends_on:
+       - mongo-db
+    networks:
+      - mongo_network
+
+
+networks:
+  mongo_network:
+    driver: bridge
+
+volumes:
+  mongo_data: # Declare the volume for persistent storage
