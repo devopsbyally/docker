@@ -28,6 +28,18 @@ services:
     networks:
       - mongo_network
 
+  nodejs-app:
+    build:
+      context: ./nodejs-app
+    ports:
+      - 3000:3000 # hostport:containerport
+    networks:
+      - mongo_network
+    depends_on:
+      - mongo-db
+    environment:
+      - MONGO_URI=mongodb://admin:admin123@mongo-db:27017
+
 
 networks:
   mongo_network:
