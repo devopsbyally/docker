@@ -1,5 +1,8 @@
-# Use the React.js image for development
+# Use the React.js image for development (ensure it has Node.js and npm)
 FROM premlaks/reactjs:payment-NOV-26-2024
+
+# Install Node.js and npm (in case they are not in the base image)
+RUN apt-get update && apt-get install -y nodejs npm
 
 # Set the working directory in the container
 WORKDIR /app
