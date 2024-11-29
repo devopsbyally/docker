@@ -1,0 +1,2 @@
+Flask==2.2.3  # Compatible with latest Werkzeug
+Werkzeug==2.2.3  # A stable version compatible with Flask 2.2.x
