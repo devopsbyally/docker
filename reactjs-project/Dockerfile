@@ -13,8 +13,8 @@ RUN npm install
 # Copy the entire project to the working directory
 COPY . .
 
-# Expose port 3500 for development
-EXPOSE 3500
+# Expose port 3000 for development
+EXPOSE 3000
 
 # Run the React development server
 CMD ["npm", "start"]
