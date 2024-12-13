@@ -1,0 +1,21 @@
+server {
+    listen ${NGINX_PORT};
+
+    # Serve React app
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
+        try_files $uri /index.html;
+    }
+
+    # Proxy Goa service
+    location /goa {
+        proxy_pass http://${GOA_API_URL}/goa;
+    }
+
+    # Proxy Rajasthan service
+    location /rajasthan {
+        proxy_pass http://${RAJASTHAN_API_URL}/rajasthan;
+    }
+}
+
